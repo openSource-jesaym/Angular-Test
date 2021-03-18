@@ -1,15 +1,20 @@
-const app = require('express')();
+const express = require('express');
+const app =  express();
 const http = require('http').Server(app);
 const port = 3000;
 const path = require('path');
 const io = require('socket.io')(http);
 
+app.set('view engine', 'ejs')
+app.use(express.static('public'))
 /**
  * page that renders when accessing localhost:3000 
  */
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname + '/view/index.html'));
+let tasks = [1, 1, 0]
+
+app.get('/', function(req, res) {
+  res.render('root', {tasks: tasks})
 });
 
 /**
