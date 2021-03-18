@@ -4,10 +4,18 @@ const port = 3000
 const path = require('path');
 
 /**
- * Get api that returns the list of persons 
+ * page that renders when accessing localhost:3000 
  */
 
 app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+/**
+ * Get api that returns the list of persons 
+ */
+  
+app.get('/getList', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
