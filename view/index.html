@@ -1,1 +1,20 @@
-testing the serve funcionnality
+<html>
+
+<head>
+   <title>Angular Test</title>
+</head>
+<script src="/socket.io/socket.io.js"></script>
+
+<script src="../public/javascript/app.js">
+   const socket = io();
+
+   socket.on('gotPersonList', (msg) => {
+      console.log('got Persons List')
+   });
+</script>
+
+<body class="tasks-progress">
+   nothing to show here
+</body>
+
+</html>
