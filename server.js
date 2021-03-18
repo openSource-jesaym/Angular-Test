@@ -1,9 +1,9 @@
 const express = require('express');
 const app =  express();
-const http = require('http').Server(app);
 const port = 3000;
 const path = require('path');
-const io = require('socket.io')(http);
+var http = require('http').Server(app)
+var io = require('socket.io')(http)
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
