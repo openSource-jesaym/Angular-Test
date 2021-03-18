@@ -1,29 +1,31 @@
-const express = require('express');
-const app = express();
-const port = 3000
+const app = require('express')();
+const http = require('http').Server(app);
+const port = 3000;
 const path = require('path');
+const io = require('socket.io')(http);
 
 /**
  * page that renders when accessing localhost:3000 
  */
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname + '/view/index.html'));
 });
 
 /**
  * Get api that returns the list of persons 
  */
-  
-app.get('/getList', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
+
+app.get('/getPersonsList', (req, res) => {
+  io.emit('gotPersonList', true);
+  res.send(['1','2'])
 });
 
 /**
  * Post api add a new person to the database 
  */
 
-app.post('/addPerson', function(req, res) {
+app.post('/addPerson', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
@@ -32,11 +34,22 @@ app.post('/addPerson', function(req, res) {
  * something seems wrong though :/
  */
 
-app.get('/deletePerson', function(req, res) {
+app.get('/deletePerson', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 
-app.listen(port, () => {
-  console.log(`backend app running at http://localhost:${port}`)
+//Whenever someone connects this gets executed
+io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    //Whenever someone disconnects this piece of code executed
+    socket.on('disconnect', () => {
+      console.log('A user disconnected');
+    });
+  });
+
+// use nodemon, so we don't have to refresh
+http.listen(port, () => {
+  console.log(`backend app running 🔥 at http://localhost:${port}`)
 })
