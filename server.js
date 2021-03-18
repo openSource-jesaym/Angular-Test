@@ -3,12 +3,16 @@ const app = express();
 const port = 3000
 const path = require('path');
 
+app.set('view engine', 'ejs')
+app.use(express.static('public'))
 /**
  * page that renders when accessing localhost:3000 
  */
 
+let tasks = [1, 1, 0]
+
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
+  res.render('root', {tasks: tasks})
 });
 
 /**
@@ -38,5 +42,5 @@ app.get('/deletePerson', function(req, res) {
 
 
 app.listen(port, () => {
-  console.log(`backend app running at http://localhost:${port}`)
+  console.log(`backend app running 🔥 at http://localhost:${port}`)
 })
