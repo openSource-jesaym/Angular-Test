@@ -46,8 +46,14 @@
     <script>
 
         const socket = io()
-        socket.on('gotPersonList', (msg) => {
-            console.log('got Persons List')
+        socket.on('gotPersonList', (data) => {
+            console.log('got Persons List');
+        })
+        socket.on('addedAPerson', (data) => {
+            console.log("added A Person successfully");
+        })
+        socket.on('deletedAPerson', (data) => {
+            console.log("deleted A Person successfully");
         })
     </script>
 </body>
