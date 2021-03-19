@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
  * Get api that returns the list of persons 
  */
 
-app.get('/g', (req, res) => {
+app.get('/getPersonsList', (req, res) => {
   io.emit('gotPersonList', true);
   // res.send(['1','2'])
   res.render('root')
@@ -29,7 +29,7 @@ app.get('/g', (req, res) => {
  * Post api add a new person to the database 
  */
 
-app.get('/a', (req, res) => {
+app.post('/addPerson', (req, res) => {
   io.emit('addedAPerson', true);
   res.render('root')
 });
@@ -39,7 +39,7 @@ app.get('/a', (req, res) => {
  * something seems wrong though :/
  */
 
-app.get('/d', (req, res) => {
+app.get('/deletePerson', (req, res) => {
   io.emit('deletedAPerson', true);
   res.render('root')
 });
