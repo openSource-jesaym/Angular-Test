@@ -11,10 +11,8 @@ app.use(express.static('public'))
  * page that renders when accessing localhost:3000 
  */
 
-let tasks = [1, 1, 0]
-
 app.get('/', function(req, res) {
-  res.render('root', {tasks: tasks})
+  res.render('root')
 });
 
 /**
