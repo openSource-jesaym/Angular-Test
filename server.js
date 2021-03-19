@@ -21,17 +21,19 @@ app.get('/', function(req, res) {
  * Get api that returns the list of persons 
  */
 
-app.get('/getPersonsList', (req, res) => {
+app.get('/g', (req, res) => {
   io.emit('gotPersonList', true);
-  res.send(['1','2'])
+  // res.send(['1','2'])
+  res.render('root')
 });
 
 /**
  * Post api add a new person to the database 
  */
 
-app.post('/addPerson', (req, res) => {
-  res.sendFile(path.join(__dirname + '/index.html'));
+app.get('/a', (req, res) => {
+  io.emit('addedAPerson', true);
+  res.render('root')
 });
 
 /**
@@ -39,8 +41,9 @@ app.post('/addPerson', (req, res) => {
  * something seems wrong though :/
  */
 
-app.get('/deletePerson', (req, res) => {
-  res.sendFile(path.join(__dirname + '/index.html'));
+app.get('/d', (req, res) => {
+  io.emit('deletedAPerson', true);
+  res.render('root')
 });
 
 
