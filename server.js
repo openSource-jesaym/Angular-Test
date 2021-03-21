@@ -1,18 +1,16 @@
 const express = require('express');
-const bodyParser = require('body-parser')
 const app = express();
 const port = 3000;
-const path = require('path');
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
-var firebase = require('firebase')
-const cors = require('cors');
+var firebase = require('firebase');
+const firebaseConfig = require('./firebase-config')  
 
-app.use(bodyParser.urlencoded({
+app.use(express.urlencoded({
   extended: true
 }));
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use(function (req, res, next) {
   //Enabling CORS
@@ -22,15 +20,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-var firebaseConfig = {
-  apiKey: "AIzaSyA_UpB9EGG4C3rq0y-aClvQnJEWMq826Nw",
-  authDomain: "angulartest-7414b.firebaseapp.com",
-  databaseURL: "https://angulartest-7414b-default-rtdb.firebaseio.com",
-  projectId: "angulartest-7414b",
-  storageBucket: "angulartest-7414b.appspot.com",
-  messagingSenderId: "739692701555",
-  appId: "1:739692701555:web:e8adaddfb49bd78d35c706"
-}
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
@@ -67,9 +56,7 @@ app.get('/getPersonsList', async (req, res) => {
 
       res.json(array)
     })
-  
-
-})
+  })
 
 /**
  * Post api add a new person to the database 
@@ -77,22 +64,17 @@ app.get('/getPersonsList', async (req, res) => {
 
 app.post('/addPerson', async (req, res) => {
 
-  const name = req.body.name
+  const name = req.body.name 
   const lastName = req.body.lastName
   const date = req.body.date
 
-  let obj = {
-    name: name,
-    lastName: lastName,
-    date: date
-  }
-
+  if (!name || !lastName || !date) res.json("Data not valid!");
 
   let dataToSend = person.push()
   await dataToSend.set({
-    name: name,
-    lastName: lastName,
-    date: date
+    name,
+    lastName,
+    date
   })
 
   io.emit('addedAPerson', true);
@@ -114,7 +96,7 @@ app.delete('/deletePerson/:id',async (req, res) => {
     .then(async data => {
 
       if (data.val() !== null) 
-        await database.ref('persons/'+ id ).remove().then(resp => {
+        await database.ref('persons/'+ id ).remove().then(() => {
           io.emit('deletedAPerson', true);
           res.json('User Deleted Suvvessfully');
         },err => {
