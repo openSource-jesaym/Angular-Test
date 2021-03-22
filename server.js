@@ -124,7 +124,4 @@ io.on('connection', (socket) => {
   });
 });
 
-// use nodemon, so we don't have to refresh
-http.listen(port, () => {
-  console.log(`backend app running 🔥 at http://localhost:${port}`)
-})
+http.listen(port,console.log(`Running 🔥 at port ${port}`))
